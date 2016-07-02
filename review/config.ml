@@ -21,6 +21,7 @@ let () =
       "mirage-logs";
       "git";
       "irmin.mirage";
+      "decompress"
     ] in
   register ~libraries "review" [
     main $ https $ keys $ default_clock
