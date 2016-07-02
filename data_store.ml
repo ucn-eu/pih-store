@@ -70,9 +70,10 @@ module Make (C: CLOCK) = struct
    let fn () =
      B.list store ~parent () >>= function
      | Ok lst ->
-        let id_lst = List.map List.tl lst in
+        let id_of_k k = k |> List.rev |> List.hd in
+        let id_lst = List.map id_of_k lst in
         return (Ok id_lst)
-     | _ as r -> return r
+     | Error _ as e -> return e
    in
    with_log store ?src "list data" fn
 

@@ -2,8 +2,8 @@ open Result
 
 module Make(C : V1.CLOCK): sig
   type t
-  type key = Base_store.key
-  type value = Base_store.value
+  type key = string list
+  type value = string
   type src = string * int
   type id = string
 
@@ -17,7 +17,7 @@ module Make(C : V1.CLOCK): sig
 
   val remove : ?src:src -> t -> id -> (unit, exn) result Lwt.t
 
-  val list : ?src:src -> t -> (key list, exn) result Lwt.t
+  val list : ?src:src -> t -> (id list, exn) result Lwt.t
 
   val get_meta : ?src:src -> t -> id -> (value -> 'a) -> ('a, exn) result Lwt.t
 
