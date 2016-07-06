@@ -16,6 +16,7 @@ remove: ["ocamlfind" "remove" "pih-store"]
 depends: [
   "ocamlfind" {build}
   "irmin" { >= "0.10.0" }
+  "mirage-git"
   "decompress"
   "mstruct"
   "cstruct"
