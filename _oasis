@@ -1,0 +1,15 @@
+OASISFormat: 0.4
+Name:        pih-store
+Version:     0.0.1
+Synopsis:    store abstraction over irmin for PIH data store instances
+Authors:     qli
+License:     ISC
+Plugins:     META (0.4), DevFiles (0.4)
+
+Library "pih-store"
+  Path:            .
+  BuildTools:      ocamlbuild
+  Modules:         Data_store
+  FindlibName:     pih-store
+  InternalModules: Inflator, Base_store
+  BuildDepends:    irmin, irmin.mirage, decompress, astring, mstruct, cstruct, result
