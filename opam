@@ -1,0 +1,24 @@
+opam-version: "1.2"
+name: "pih-store"
+version: "0.0.1"
+maintainer: "qli <ql272@cl.cam.ac.uk>"
+authors: "qli <ql272@cl.cam.ac.uk>"
+homepage: "https://github.com/ucn-eu/pih-store.git"
+dev-repo: "https://github.com/ucn-eu/pih-store.git"
+license: "ISC"
+
+build: [
+  ["./configure" "--prefix=%{prefix}%"]
+  [make]
+]
+install: [make "install"]
+remove: ["ocamlfind" "remove" "pih-store"]
+depends: [
+  "ocamlfind" {build}
+  "irmin" { >= "0.10.0" }
+  "decompress"
+  "mstruct"
+  "cstruct"
+  "astring"
+  "lwt"
+]

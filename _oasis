@@ -12,4 +12,4 @@ Library "pih-store"
   Modules:         Data_store
   FindlibName:     pih-store
   InternalModules: Inflator, Base_store
-  BuildDepends:    irmin, irmin.mirage, decompress, astring, mstruct, cstruct, result
+  BuildDepends:    irmin, irmin.mirage, decompress, astring, result
