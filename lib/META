@@ -1,6 +1,6 @@
 # OASIS_START
-# DO NOT EDIT (digest: 586fb8a5368113a0d66f97714aac437c)
-version = "0.0.1"
+# DO NOT EDIT (digest: ca73ae6b3d7bb0787a9f54f2f73c3d96)
+version = "0.0.2"
 description = "store abstraction over irmin for PIH data store instances"
 requires = "irmin irmin.mirage decompress astring result"
 archive(byte) = "pih-store.cma"

@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: ad8fb564ca63967a9c161751245e887b)
+# DO NOT EDIT (digest: a8e63af03b450baca780579d0a996f74)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -15,10 +15,10 @@ true: annot, bin_annot
 "_darcs": -traverse
 "_darcs": not_hygienic
 # Library pih-store
-"pih-store.cmxs": use_pih-store
-<*.ml{,i,y}>: pkg_astring
-<*.ml{,i,y}>: pkg_decompress
-<*.ml{,i,y}>: pkg_irmin
-<*.ml{,i,y}>: pkg_irmin.mirage
-<*.ml{,i,y}>: pkg_result
+"lib/pih-store.cmxs": use_pih-store
+<lib/*.ml{,i,y}>: pkg_astring
+<lib/*.ml{,i,y}>: pkg_decompress
+<lib/*.ml{,i,y}>: pkg_irmin
+<lib/*.ml{,i,y}>: pkg_irmin.mirage
+<lib/*.ml{,i,y}>: pkg_result
 # OASIS_STOP

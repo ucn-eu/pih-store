@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: bc2dc05983fa034b466e7d2db3ddf498) *)
+(* DO NOT EDIT (digest: 8afb1533541342b6dee571ec7394252a) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -767,7 +767,7 @@ end
 open Ocamlbuild_plugin;;
 let package_default =
   {
-     MyOCamlbuildBase.lib_ocaml = [("pih-store", [], [])];
+     MyOCamlbuildBase.lib_ocaml = [("pih-store", ["lib"], [])];
      lib_c = [];
      flags = [];
      includes = []
