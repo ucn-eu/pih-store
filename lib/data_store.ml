@@ -11,6 +11,7 @@ type t = {
     check: B.value -> bool;
 }
 type value = B.value
+type key = string list
 type id = string
 type src = string * int
 
@@ -38,28 +39,35 @@ let with_log s t ?src a k =
   B.create s ~check:(fun _ -> true) (log_root :: [time]) log
   >>= fun _ -> Lwt.return r
 
-let read {store; time; _} ?src id =
-  let fn () = B.read store (data_root :: [id]) in
-  let action = "read " ^ id in
+let read {store; time; _} ?src key =
+  let path = data_root :: key in
+  let fn () = B.read store path in
+  let action = "read " ^ (String.concat "/" path) in
   with_log store time ?src action fn
 
-let update {store; time; check} ?src id v =
-  let fn () = B.update store ~check (data_root :: [id]) v in
-  let action = Printf.sprintf "update %s to [%s]" id v in
+let update {store; time; check} ?src key v =
+  let path = data_root :: key in
+  let fn () = B.update store ~check path v in
+  let action = Printf.sprintf "update %s to [%s]"
+    (String.concat "/" path) v in
   with_log store time ?src action fn
 
-let create {store; time; check} ?src id v =
-  let fn () = B.create store ~check (data_root :: [id]) v in
-  let action = Printf.sprintf "create %s as [%s]" id v in
+let create {store; time; check} ?src key v =
+  let path = data_root :: key in
+  let fn () = B.create store ~check (data_root :: path) v in
+  let action = Printf.sprintf "create %s as [%s]" (String.concat "/" path) v in
   with_log store time ?src action fn
 
-let remove {store; time; _} ?src id =
-  let fn () = B.remove store (data_root :: [id]) in
-  let action = "remove " ^ id in
+let remove {store; time; _} ?src key =
+  let path = data_root :: key in
+  let fn () = B.remove store (data_root :: path) in
+  let action = "remove " ^ (String.concat "/" path) in
   with_log store time ?src action fn
 
-let list {store; time; _} ?src () =
-  let parent = [data_root] in
+let list {store; time; _} ?src ?parent () =
+  let parent = match parent with
+    | None -> [data_root]
+    | Some p -> data_root :: p  in
   let fn () =
     B.list store ~parent () >>= function
     | Ok lst ->
@@ -70,12 +78,13 @@ let list {store; time; _} ?src () =
   in
   with_log store time ?src "list data" fn
 
-let get_meta {store;time;  _} ?src id to_meta =
+let get_meta {store;time;  _} ?src key to_meta =
+  let path = data_root :: key in
   let fn () =
-    B.read store (data_root :: [id]) >>= function
+    B.read store (data_root :: path) >>= function
     | Ok v -> return (Ok (to_meta v))
     | Error _ as e -> return e in
-  let action = "get metadata of " ^ id in
+  let action = "get metadata of " ^ (String.concat "/" path) in
   with_log store time ?src action fn
 
 let compare x y =
