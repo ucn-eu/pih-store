@@ -1,3 +1,4 @@
+(* copied directly from Engil/Canopy /inflator.ml *)
 module Inflate = Decompress.Inflate.Make(Decompress.ExtString)(Decompress.ExtBytes)
 module Deflate = Decompress.Deflate.Make(Decompress.ExtString)(Decompress.ExtBytes)
 
