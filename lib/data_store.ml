@@ -15,11 +15,18 @@ type key = string list
 type id = string
 type src = string * int
 
-let make ~owner ~time ?check () =
+let make ~owner ~time ?check ?dump () =
   B.init ~owner >>= fun store ->
   let check = match check with
     | Some c -> c | None -> fun _ -> true in
-  Lwt.return {store; time; check}
+  match dump with
+  | None -> return {store; time; check}
+  | Some d ->
+     B.import store d >>= function
+     | Error _ (*log this*)
+     | Ok () -> Lwt.return {store; time; check}
+
+let export {store; _} = B.dump store
 
 let data_root = "data"
 let log_root = "log"

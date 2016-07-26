@@ -9,7 +9,10 @@ type id = string
 val make :
   owner:string ->
   time:(unit -> string) ->
-  ?check:(value -> bool) -> unit -> t Lwt.t
+  ?check:(value -> bool) ->
+  ?dump:string -> unit -> t Lwt.t
+
+val export: t -> (string, exn) result Lwt.t
 
 val read : t -> ?src:src -> key -> (value, exn) result Lwt.t
 

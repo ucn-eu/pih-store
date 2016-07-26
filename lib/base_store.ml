@@ -17,6 +17,31 @@ let init ~owner =
   Store.Repo.create config >>= fun repo ->
   Store.master task repo
 
+module Pair = Tc.Pair(Store.Hash)(Store.Private.Slice)
+
+let dump s =
+  let s = s "export" in
+  Store.head s >>= function
+  | None -> return (Error (Invalid_argument "dump: no head"))
+  | Some head ->
+     Store.Repo.export ~max:[head] (Store.repo s) >>= fun slice ->
+     let p = (head, slice) in
+     let buf = Cstruct.create (Pair.size_of p) in
+     let _ = Pair.write p buf in
+     let dump = Cstruct.to_string buf in
+     return (Ok dump)
+
+let import s dump =
+  let s = s "import" in
+  let buf = Mstruct.of_string dump in
+  let (head, slice) = Pair.read buf in
+  Store.Repo.import (Store.repo s) slice >>= function
+  | `Error -> return (Error (Failure "import: import failure"))
+  | `Ok ->
+     Store.fast_forward_head s head >>= function
+     | false -> return (Error (Failure "import: ff failure"))
+     | true -> return (Ok ())
+
 let read s key =
   let s = s  "read" in
   Store.read s key >>= function

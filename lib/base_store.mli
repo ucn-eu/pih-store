@@ -6,6 +6,10 @@ type value = string
 
 val init : owner:string -> t Lwt.t
 
+val dump: t -> (string, exn) result Lwt.t
+
+val import: t -> string -> (unit, exn) result Lwt.t
+
 val read : t -> key -> (value, exn) result Lwt.t
 
 val update : t -> check:(value -> bool) -> key -> value -> (unit, exn) result Lwt.t
