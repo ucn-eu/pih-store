@@ -55,14 +55,13 @@ let read {store; time; _} ?src key =
 let update {store; time; check} ?src key v =
   let path = data_root :: key in
   let fn () = B.update store ~check path v in
-  let action = Printf.sprintf "update %s to [%s]"
-    (String.concat "/" path) v in
+  let action = Printf.sprintf "update %s" (String.concat "/" path) in
   with_log store time ?src action fn
 
 let create {store; time; check} ?src key v =
   let path = data_root :: key in
   let fn () = B.create store ~check (data_root :: path) v in
-  let action = Printf.sprintf "create %s as [%s]" (String.concat "/" path) v in
+  let action = Printf.sprintf "create %s" (String.concat "/" path) in
   with_log store time ?src action fn
 
 let remove {store; time; _} ?src key =
