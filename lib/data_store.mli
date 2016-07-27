@@ -5,14 +5,15 @@ type value = string
 type src = string * int
 type key = string list
 type id = string
+type commit_id = Base_store.commit_id
 
 val make :
   owner:string ->
   time:(unit -> string) ->
-  ?check:(value -> bool) ->
-  ?dump:string -> unit -> t Lwt.t
+  ?check:(value -> bool) -> unit -> t Lwt.t
 
-val export: t -> (string, exn) result Lwt.t
+val export: ?min:commit_id list -> t -> ((commit_id * string) option, exn) result Lwt.t
+val import: string -> t -> (commit_id, exn) result Lwt.t
 
 val read : t -> ?src:src -> key -> (value, exn) result Lwt.t
 

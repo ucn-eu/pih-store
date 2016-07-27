@@ -14,19 +14,16 @@ type value = B.value
 type key = string list
 type id = string
 type src = string * int
+type commit_id = B.commit_id
 
-let make ~owner ~time ?check ?dump () =
+let make ~owner ~time ?check () =
   B.init ~owner >>= fun store ->
   let check = match check with
     | Some c -> c | None -> fun _ -> true in
-  match dump with
-  | None -> return {store; time; check}
-  | Some d ->
-     B.import store d >>= function
-     | Error _ (*log this*)
-     | Ok () -> Lwt.return {store; time; check}
+  return {store; time; check}
 
-let export {store; _} = B.dump store
+let export ?min {store; _} = B.dump ?min store
+let import s {store; _} = B.import store s
 
 let data_root = "data"
 let log_root = "log"

@@ -1,6 +1,6 @@
 OASISFormat: 0.4
 Name:        pih-store
-Version:     0.0.2
+Version:     0.0.3
 Synopsis:    store abstraction over irmin for PIH data store instances
 Authors:     qli
 License:     ISC

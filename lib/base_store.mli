@@ -3,12 +3,13 @@ open Result
 type t
 type key = string list
 type value = string
+type commit_id = Irmin.Hash.SHA1.t
 
 val init : owner:string -> t Lwt.t
 
-val dump: t -> (string, exn) result Lwt.t
+val dump: ?min:commit_id list -> t -> ((commit_id * string) option, exn) result Lwt.t
 
-val import: t -> string -> (unit, exn) result Lwt.t
+val import: t -> string -> (commit_id, exn) result Lwt.t
 
 val read : t -> key -> (value, exn) result Lwt.t
 
