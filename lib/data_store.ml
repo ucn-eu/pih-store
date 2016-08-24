@@ -57,13 +57,13 @@ let update {store; time; check} ?src key v =
 
 let create {store; time; check} ?src key v =
   let path = data_root :: key in
-  let fn () = B.create store ~check (data_root :: path) v in
+  let fn () = B.create store ~check path v in
   let action = Printf.sprintf "create %s" (String.concat "/" path) in
   with_log store time ?src action fn
 
 let remove {store; time; _} ?src key =
   let path = data_root :: key in
-  let fn () = B.remove store (data_root :: path) in
+  let fn () = B.remove store path in
   let action = "remove " ^ (String.concat "/" path) in
   with_log store time ?src action fn
 
@@ -84,7 +84,7 @@ let list {store; time; _} ?src ?parent () =
 let get_meta {store;time;  _} ?src key to_meta =
   let path = data_root :: key in
   let fn () =
-    B.read store (data_root :: path) >>= function
+    B.read store path >>= function
     | Ok v -> return (Ok (to_meta v))
     | Error _ as e -> return e in
   let action = "get metadata of " ^ (String.concat "/" path) in
