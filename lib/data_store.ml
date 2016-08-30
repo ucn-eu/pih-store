@@ -8,16 +8,24 @@ let return = Lwt.return
 type t = {
     store: B.t;
     time : unit -> string;
-    check: B.value -> bool;
+    check: string -> bool;
 }
-type value = B.value
+
+type value = string
 type key = string list
 type id = string
 type src = string * int
-type commit_id = B.commit_id
+type commit_id = Irmin.Hash.SHA1.t
 
-let make ~owner ~time ?check () =
-  B.init ~owner >>= fun store ->
+type backend =
+  [ `Memory of string
+  | `Http of ((Resolver_lwt.t * Conduit_mirage.conduit * Uri.t) * string) ]
+
+let make ~backend ~time ?check () =
+  (match backend with
+  | `Memory owner -> B.mem_backend ~owner
+  | `Http ((r, c, uri), owner) -> B.http_backend r c uri ~owner)
+  >>= fun store ->
   let check = match check with
     | Some c -> c | None -> fun _ -> true in
   return {store; time; check}

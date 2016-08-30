@@ -5,10 +5,14 @@ type value = string
 type src = string * int
 type key = string list
 type id = string
-type commit_id = Base_store.commit_id
+type commit_id = Irmin.Hash.SHA1.t
+
+type backend =
+  [ `Memory of string
+  | `Http of ((Resolver_lwt.t * Conduit_mirage.conduit * Uri.t) * string) ]
 
 val make :
-  owner:string ->
+  backend : backend ->
   time:(unit -> string) ->
   ?check:(value -> bool) -> unit -> t Lwt.t
 
