@@ -1,6 +1,6 @@
 OASISFormat: 0.4
 Name:        pih-store
-Version:     0.0.3
+Version:     0.1.0
 Synopsis:    store abstraction over irmin for PIH data store instances
 Authors:     qli
 License:     ISC
@@ -12,4 +12,4 @@ Library "pih-store"
   Modules:         Data_store
   FindlibName:     pih-store
   InternalModules: Inflator, Base_store
-  BuildDepends:    irmin, irmin.mirage, decompress, astring, result
+  BuildDepends:    irmin, irmin.mirage, irmin.http, conduit, conduit.mirage, mirage-http, decompress, astring, result

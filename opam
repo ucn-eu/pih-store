@@ -1,6 +1,6 @@
 opam-version: "1.2"
 name: "pih-store"
-version: "0.0.4"
+version: "0.1.0"
 maintainer: "qli <ql272@cl.cam.ac.uk>"
 authors: "qli <ql272@cl.cam.ac.uk>"
 homepage: "https://github.com/ucn-eu/pih-store.git"
@@ -17,6 +17,8 @@ depends: [
   "ocamlfind" {build}
   "irmin" { >= "0.10.0" }
   "mirage-git"
+  "conduit"
+  "mirage-http"
   "decompress"
   "mstruct"
   "cstruct"
