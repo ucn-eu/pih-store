@@ -1,22 +1,44 @@
-open Result
+module type STRING_IRMIN = Irmin.S with
+    type commit_id = Irmin.Hash.SHA1.t and
+    type key = Irmin.Contents.String.Path.t and
+    type value = Irmin.Contents.String.t
 
-type t
-type key = string list
-type value = string
-type commit_id = Irmin.Hash.SHA1.t
 
-val init : owner:string -> t Lwt.t
+type t = S: (module STRING_IRMIN with type t = 'a) * (string -> 'a) -> t
 
-val dump: ?min:commit_id list -> t -> ((commit_id * string) option, exn) result Lwt.t
+val init : (module STRING_IRMIN with type t = 'a) -> (string -> 'a) -> t
 
-val import: t -> string -> (commit_id, exn) result Lwt.t
+val mem_backend : owner:string -> t Lwt.t
 
-val read : t -> key -> (value, exn) result Lwt.t
+val http_backend : Resolver_lwt.t -> Conduit_mirage.conduit -> Uri.t -> owner:string -> t Lwt.t
 
-val update : t -> check:(value -> bool) -> key -> value -> (unit, exn) result Lwt.t
+val dump :
+  ?min:Irmin.Hash.SHA1.t list ->
+  t -> ((Irmin.Hash.SHA1.t * string) option, exn) Result.result Lwt.t
 
-val create : t -> check:(value -> bool) -> key -> value -> (unit, exn) result Lwt.t
+val import : t -> string -> (Irmin.Hash.SHA1.t, exn) Result.result Lwt.t
 
-val remove : t -> key -> (unit, 'a) result Lwt.t
+val read :
+  t ->
+  Irmin.Contents.String.Path.t ->
+  (Irmin.Contents.String.t, exn) Result.result Lwt.t
 
-val list : t -> ?parent:key -> unit -> (key list, 'a) result Lwt.t
+val update :
+  t ->
+  check:(Irmin.Contents.String.t -> bool) ->
+  Irmin.Contents.String.Path.t ->
+  Irmin.Contents.String.t -> (unit, exn) Result.result Lwt.t
+
+val create :
+  t ->
+  check:(Irmin.Contents.String.t -> bool) ->
+  Irmin.Contents.String.Path.t ->
+  Irmin.Contents.String.t -> (unit, exn) Result.result Lwt.t
+
+val remove :
+  t -> Irmin.Contents.String.Path.t -> (unit, 'a) Result.result Lwt.t
+
+val list :
+  t ->
+  ?parent:Irmin.Contents.String.Path.t ->
+  unit -> (Irmin.Contents.String.Path.t list, 'a) Result.result Lwt.t
