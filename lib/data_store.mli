@@ -27,6 +27,8 @@ val create : t -> ?src:src -> key -> value -> (unit, exn) result Lwt.t
 
 val remove : t -> ?src:src -> key -> (unit, exn) result Lwt.t
 
+val remove_rec : t -> ?src:src -> key -> (unit, exn) result Lwt.t
+
 val list : t -> ?src:src -> ?parent:key -> unit -> (id list, exn) result Lwt.t
 
 val get_meta : t -> ?src:src -> key -> (value -> 'a) -> ('a, exn) result Lwt.t

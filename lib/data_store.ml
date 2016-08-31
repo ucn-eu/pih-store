@@ -75,6 +75,12 @@ let remove {store; time; _} ?src key =
   let action = "remove " ^ (String.concat "/" path) in
   with_log store time ?src action fn
 
+let remove_rec {store; time; _} ?src key =
+  let path = data_root :: key in
+  let fn () = B.remove_rec store path in
+  let action = "remove_rec " ^ (String.concat "/" path) in
+  with_log store time ?src action fn
+
 let list {store; time; _} ?src ?parent () =
   let parent = match parent with
     | None -> [data_root]

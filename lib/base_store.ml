@@ -179,6 +179,13 @@ let remove s key = match s with
      >>= fun () -> return (Ok ())
 
 
+let remove_rec s key = match s with
+  | S ((module Store), s) ->
+     let s = s "remove" in
+     Store.remove_rec s key
+     >>= fun () -> return (Ok ())
+
+
 let list s ?parent () = match s with
   | S ((module Store), s) ->
      let key = match parent with

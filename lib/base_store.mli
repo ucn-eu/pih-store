@@ -38,6 +38,9 @@ val create :
 val remove :
   t -> Irmin.Contents.String.Path.t -> (unit, 'a) Result.result Lwt.t
 
+val remove_rec :
+  t -> Irmin.Contents.String.Path.t -> (unit, 'a) Result.result Lwt.t
+
 val list :
   t ->
   ?parent:Irmin.Contents.String.Path.t ->
