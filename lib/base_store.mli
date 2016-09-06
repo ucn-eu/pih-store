@@ -21,27 +21,31 @@ val import : t -> string -> (Irmin.Hash.SHA1.t, exn) Result.result Lwt.t
 val read :
   t ->
   Irmin.Contents.String.Path.t ->
+  string ->
   (Irmin.Contents.String.t, exn) Result.result Lwt.t
 
 val update :
   t ->
   check:(Irmin.Contents.String.t -> bool) ->
   Irmin.Contents.String.Path.t ->
+  string ->
   Irmin.Contents.String.t -> (unit, exn) Result.result Lwt.t
 
 val create :
   t ->
   check:(Irmin.Contents.String.t -> bool) ->
   Irmin.Contents.String.Path.t ->
+  string ->
   Irmin.Contents.String.t -> (unit, exn) Result.result Lwt.t
 
 val remove :
-  t -> Irmin.Contents.String.Path.t -> (unit, 'a) Result.result Lwt.t
+  t -> Irmin.Contents.String.Path.t -> string -> (unit, 'a) Result.result Lwt.t
 
 val remove_rec :
-  t -> Irmin.Contents.String.Path.t -> (unit, 'a) Result.result Lwt.t
+  t -> Irmin.Contents.String.Path.t -> string -> (unit, 'a) Result.result Lwt.t
 
 val list :
   t ->
   ?parent:Irmin.Contents.String.Path.t ->
+  string ->
   unit -> (Irmin.Contents.String.Path.t list, 'a) Result.result Lwt.t

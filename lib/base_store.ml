@@ -144,52 +144,52 @@ let import s dump = match s with
         | true -> return (Ok head)
 
 
-let read s key = match s with
+let read s key log = match s with
   | S ((module Store), s) ->
-     let s = s  "read" in
+     let s = s log in
      Store.read s key >>= function
      | None -> return (Error Not_found)
      | Some v -> return (Ok v)
 
 
-let update s ~check key c = match s with
+let update s ~check key c log = match s with
   | S ((module Store), s) ->
      if not (check c)
      then return (Error (Invalid_argument c))
      else
-       let s = s "update" in
+       let s = s log in
        Store.update s key c
        >>= fun () -> return (Ok ())
 
 
-let create s ~check key c = match s with
+let create s ~check key c log = match s with
   | S ((module Store), s) ->
      if not (check c)
      then return (Error (Invalid_argument c))
      else
-       let s = s "create" in
+       let s = s log in
        Store.update s key c
        >>= fun () -> return (Ok ())
 
 
-let remove s key = match s with
+let remove s key log = match s with
   | S ((module Store), s) ->
-     let s = s "remove" in
+     let s = s log in
      Store.remove s key
      >>= fun () -> return (Ok ())
 
 
-let remove_rec s key = match s with
+let remove_rec s key log = match s with
   | S ((module Store), s) ->
-     let s = s "remove" in
+     let s = s log in
      Store.remove_rec s key
      >>= fun () -> return (Ok ())
 
 
-let list s ?parent () = match s with
+let list s ?parent log () = match s with
   | S ((module Store), s) ->
      let key = match parent with
        | None -> [] | Some lst -> lst in
-     let s = s "list" in
+     let s = s log in
      Store.list s key
      >>= fun keys -> return (Ok keys)

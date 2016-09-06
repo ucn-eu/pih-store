@@ -1,6 +1,6 @@
 # OASIS_START
-# DO NOT EDIT (digest: 7aa52ffae0f110d0a1952e8a3745f6a8)
-version = "0.1.0"
+# DO NOT EDIT (digest: b56532e9d5a331c6ffeb6ca83723a722)
+version = "0.1.1"
 description = "store abstraction over irmin for PIH data store instances"
 requires =
 "irmin irmin.mirage irmin.http conduit conduit.mirage mirage-http decompress astring result"
