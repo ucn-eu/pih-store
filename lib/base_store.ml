@@ -162,14 +162,18 @@ let update s ~check key c log = match s with
        >>= fun () -> return (Ok ())
 
 
-let create s ~check key c log = match s with
-  | S ((module Store), s) ->
-     if not (check c)
-     then return (Error (Invalid_argument c))
-     else
-       let s = s log in
-       Store.update s key c
-       >>= fun () -> return (Ok ())
+let create s ~check key c log =
+  read s key "check existence" >>= function
+  | Ok _ -> return @@ Error (Invalid_argument (String.concat "/" key))
+  | Error _ ->
+     match s with
+     | S ((module Store), s) ->
+        if not (check c)
+        then return (Error (Invalid_argument c))
+        else
+          let s = s log in
+          Store.update s key c
+          >>= fun () -> return (Ok ())
 
 
 let remove s key log = match s with
