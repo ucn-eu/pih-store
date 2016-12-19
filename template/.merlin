@@ -6,5 +6,5 @@ PKG astring
 PKG pih-store
 PKG mirage-xen
 
-B _build
+B _build/**
 S .
